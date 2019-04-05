@@ -1,8 +1,8 @@
 #!/bin/bash 
 
-BASEDIR="/htdocs/edittest"
-WORKDIR="/edittest"
-THISCGI="/cgi-bin/edittest.cgi"
+BASEDIR="/htdocs/edittext"
+WORKDIR="/edittext"
+THISCGI="/cgi/edittext.cgi"
 
 #echo "<html><body>"
 
@@ -12,7 +12,7 @@ echo "Content-type: text/html"
 echo
 
 QS=`cat`
-FORMINPUT=`echo $QS |tr '&' '\n' | sed -e 's/+/ /g'  > /tmp/$$.tmp`
+FORMINPUT=`echo $QS |tr '&' '\n' | sed -e 's/+/ /g' -e 's/%2C/,/g' -e 's/%40/@/g' > /tmp/$$.tmp`
 
 #cat /tmp/$$.tmp
 
@@ -45,7 +45,7 @@ QSS=`echo "$QS" | sed -e 's/\&/\\\\&/g'`
 sed -e 's/^INITIALTEXT.*/'"$TEXT"'/'  $BASEDIR/text1.tmpl |\
 sed -e 's/^DATALINE.*/DATALINE '$QSS'/' |\
 sed -e 's/SUBJECT/'"$SUBJECT"'/' |\
-sed -e 's!^LISTINGDATA.*!LISTINGDATA <a href="'$WORKDIR/$FNAME'">'"$SUBJECT"'</a>, \&nbsp; \&nbsp; <a href="/cgi-bin/edittest.cgi?name='$CNT'">edit</a>!' |\
+sed -e 's!^LISTINGDATA.*!LISTINGDATA <a href="'$WORKDIR/$FNAME'">'"$SUBJECT"'</a>, \&nbsp; \&nbsp; <a href="/cgi/edittext.cgi?name='$CNT'">edit</a>!' |\
 sed -e 's/NEWLINE/\n/g'   > $BASEDIR/$FNAME
 
 $BASEDIR/makeindex
@@ -66,7 +66,7 @@ if [ "$?" -eq 0 ] ; then
    CNT=`echo $QUERY_STRING | sed -e 's/.*=//'`
    FNAME="FILE$CNT.html"
 
-   grep "^DATALINE" $BASEDIR/$FNAME | sed -e 's/^DATALINE //' |tr '&' '\n' | sed -e 's/+/ /g' > /tmp/$FNAME
+   grep "^DATALINE" $BASEDIR/$FNAME | sed -e 's/^DATALINE //' |tr '&' '\n' | sed -e 's/+/ /g' -e 's/%2C/,/' -e 's/%40/@/g'  > /tmp/$FNAME
  
    TEXT=`awk -F'=' '/limitedtextarea/ { print $2 }' /tmp/$FNAME| sed -e 's/+/ /g'`
    CNTx=`awk -F'=' '/filename/ { print $2 }'  /tmp/$FNAME`

@@ -1,8 +1,8 @@
 #!/bin/bash <br>
 <br>
-BASEDIR="/htdocs/edittest"<br>
-WORKDIR="/edittest"<br>
-THISCGI="/cgi-bin/edittest.cgi"<br>
+BASEDIR="/htdocs/edittext"<br>
+WORKDIR="/edittext"<br>
+THISCGI="/cgi-bin/edittext.cgi"<br>
 <br>
 #echo "&lt;html&gt;&lt;body&gt;"<br>
 <br>
@@ -45,7 +45,7 @@ QSS=`echo "$QS" | sed -e 's/\&amp;/\\\\&amp;/g'`<br>
 sed -e 's/^INITIALTEXT.*/'"$TEXT"'/'  $BASEDIR/text1.tmpl |\<br>
 sed -e 's/^DATALINE.*/DATALINE '$QSS'/' |\<br>
 sed -e 's/SUBJECT/'"$SUBJECT"'/' |\<br>
-sed -e 's!^LISTINGDATA.*!LISTINGDATA &lt;a href="'$WORKDIR/$FNAME'"&gt;'"$SUBJECT"'&lt;/a&gt;, \&amp;nbsp; \&amp;nbsp; &lt;a href="/cgi-bin/edittest.cgi?name='$CNT'"&gt;edit&lt;/a&gt;!' |\<br>
+sed -e 's!^LISTINGDATA.*!LISTINGDATA &lt;a href="'$WORKDIR/$FNAME'"&gt;'"$SUBJECT"'&lt;/a&gt;, \&amp;nbsp; \&amp;nbsp; &lt;a href="/cgi-bin/edittext.cgi?name='$CNT'"&gt;edit&lt;/a&gt;!' |\<br>
 sed -e 's/NEWLINE/\n/g'   &gt; $BASEDIR/$FNAME<br>
 <br>
 $BASEDIR/makeindex<br>

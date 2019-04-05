@@ -15,11 +15,11 @@ function limitText(limitField, limitCount, limitNum) {
 
 <body bgcolor="#999999">
 
-<a href="/edittest">Listings</a> &nbsp; &nbsp;&nbsp; <a href="VIEWPAGE">See entry</a>
+<a href="/edittext">Listings</a> &nbsp; &nbsp;&nbsp; <a href="VIEWPAGE">See entry</a>
 
 <h1>Editor</h1> 
 
-<form name="myform" action="/cgi-bin/edittest.cgi" method=post> 
+<form name="myform" action="/cgi-bin/edittext.cgi" method=post> 
 <input type=text name="subject" value="SUBJECT" size=40  ><br>
 <textarea rows="20" cols="60"  name="limitedtextarea" onKeyDown="limitText(this.form.limitedtextarea,this.form.countdown,100);" 
 onKeyUp="limitText(this.form.limitedtextarea,this.form.countdown,100);">

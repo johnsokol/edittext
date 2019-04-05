@@ -4,21 +4,21 @@
 
 <!--
 DATALINE subject=Read+this+Jesse&limitedtextarea=So+it+needs+more+input+filtering%2C+but+its+all+here+you+can+view+source+and+see+how+I+keep+the+data%0D%0A%0D%0A&countdown=100&filename=10
-LISTINGDATA <a href="/edittest/FILE1.html">Source Code</a>,  NO YOU CAN'T EDIT ME
+LISTINGDATA <a href="/edittext/FILE1.html">Source Code</a>,  NO YOU CAN'T EDIT ME
 -->
 
 </head>
 
 <body bgcolor="#999999">
 
-<a href="/edittest">RETURN</a><br>
+<a href="/edittext">RETURN</a><br>
 
 <div style="background-color: #f9cb9c; font-family: 'Courier New', Courier, monospace; font-size: x-small;">
 #!/bin/bash <br>
 <br>
-BASEDIR="/htdocs/edittest"<br>
-WORKDIR="/edittest"<br>
-THISCGI="/cgi-bin/edittest.cgi"<br>
+BASEDIR="/htdocs/edittext"<br>
+WORKDIR="/edittext"<br>
+THISCGI="/cgi-bin/edittext.cgi"<br>
 <br>
 #echo "&lt;html&gt;&lt;body&gt;"<br>
 <br>
@@ -61,7 +61,7 @@ QSS=`echo "$QS" | sed -e 's/\&amp;/\\\\&amp;/g'`<br>
 sed -e 's/^INITIALTEXT.*/'"$TEXT"'/'  $BASEDIR/text1.tmpl |\<br>
 sed -e 's/^DATALINE.*/DATALINE '$QSS'/' |\<br>
 sed -e 's/SUBJECT/'"$SUBJECT"'/' |\<br>
-sed -e 's!^LISTINGDATA.*!LISTINGDATA &lt;a href="'$WORKDIR/$FNAME'"&gt;'"$SUBJECT"'&lt;/a&gt;, \&amp;nbsp; \&amp;nbsp; &lt;a href="/cgi-bin/edittest.cgi?name='$CNT'"&gt;edit&lt;/a&gt;!' |\<br>
+sed -e 's!^LISTINGDATA.*!LISTINGDATA &lt;a href="'$WORKDIR/$FNAME'"&gt;'"$SUBJECT"'&lt;/a&gt;, \&amp;nbsp; \&amp;nbsp; &lt;a href="/cgi-bin/edittext.cgi?name='$CNT'"&gt;edit&lt;/a&gt;!' |\<br>
 sed -e 's/NEWLINE/\n/g'   &gt; $BASEDIR/$FNAME<br>
 <br>
 $BASEDIR/makeindex<br>

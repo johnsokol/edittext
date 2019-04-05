@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASEDIR="/htdocs/edittest"
+BASEDIR="/htdocs/edittext"
 
 cp $BASEDIR/listing1.tmpl  $BASEDIR/index.html
 #cd $BASEDIR; grep -h LISTINGDATA FILE*.html | sed -e 's/LISTINGDATA//' -e 's/$/<br>/'  >> $BASEDIR/index.html
