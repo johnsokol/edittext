@@ -1,0 +1,111 @@
+#!/bin/bash <br>
+<br>
+BASEDIR="/htdocs/edittest"<br>
+WORKDIR="/edittest"<br>
+THISCGI="/cgi-bin/edittest.cgi"<br>
+<br>
+#echo "&lt;html&gt;&lt;body&gt;"<br>
+<br>
+if [ "$REQUEST_METHOD" == "POST" ] ; then<br>
+#echo "Content-type: text/plain"<br>
+echo "Content-type: text/html"<br>
+echo<br>
+<br>
+QS=`cat`<br>
+FORMINPUT=`echo $QS |tr '&amp;' '\n' | sed -e 's/+/ /g'  &gt; /tmp/$$.tmp`<br>
+<br>
+#cat /tmp/$$.tmp<br>
+<br>
+#FORMINPUT=`sed -e 's/\&amp;/--\n--/g'`<br>
+<br>
+#CDOWN=`awk -F'=' '/countdown/ { print $2 }'  /tmp/$$.tmp`<br>
+<br>
+TEXT=`awk -F'=' '/limitedtextarea/ { print $2 }' /tmp/$$.tmp | sed -e 's/%0D/NEWLINE/g' -e 's/%0A//g'`<br>
+CNT=`awk -F'=' '/filename/ { print $2 }'  /tmp/$$.tmp`<br>
+SUBJECT=`awk -F'=' '/subject/ { print $2 }'  /tmp/$$.tmp`<br>
+<br>
+if [ -s /tmp/$$.tmp ] ; then<br>
+  rm /tmp/$$.tmp<br>
+fi<br>
+<br>
+#echo "$QS"<br>
+FNAME="FILE$CNT.html"<br>
+<br>
+<br>
+sed -e 's/INITIALTEXT/'"$TEXT"'/'  $BASEDIR/edit1.tmpl |\<br>
+sed -e 's/SUBJECT/'"$SUBJECT"'/' |\<br>
+sed -e 's/FILENAME/'"$CNT"'/' |\<br>
+sed -e 's!VIEWPAGE!'"$WORKDIR/$FNAME"'!' |\<br>
+sed -e 's/NEWLINE/\n/g'  <br>
+<br>
+<br>
+<br>
+<br>
+QSS=`echo "$QS" | sed -e 's/\&amp;/\\\\&amp;/g'`<br>
+sed -e 's/^INITIALTEXT.*/'"$TEXT"'/'  $BASEDIR/text1.tmpl |\<br>
+sed -e 's/^DATALINE.*/DATALINE '$QSS'/' |\<br>
+sed -e 's/SUBJECT/'"$SUBJECT"'/' |\<br>
+sed -e 's!^LISTINGDATA.*!LISTINGDATA &lt;a href="'$WORKDIR/$FNAME'"&gt;'"$SUBJECT"'&lt;/a&gt;, \&amp;nbsp; \&amp;nbsp; &lt;a href="/cgi-bin/edittest.cgi?name='$CNT'"&gt;edit&lt;/a&gt;!' |\<br>
+sed -e 's/NEWLINE/\n/g'   &gt; $BASEDIR/$FNAME<br>
+<br>
+$BASEDIR/makeindex<br>
+<br>
+else<br>
+###################################################<br>
+#################  GET  ###########################<br>
+###################################################<br>
+<br>
+echo "Content-type: text/html"<br>
+#echo "Content-type: text/plain"<br>
+echo<br>
+<br>
+echo $QUERY_STRING | grep "name="  &gt; /dev/null<br>
+if [ "$?" -eq 0 ] ; then<br>
+#echo "with data posted"<br>
+<br>
+   CNT=`echo $QUERY_STRING | sed -e 's/.*=//'`<br>
+   FNAME="FILE$CNT.html"<br>
+<br>
+   grep "^DATALINE" $BASEDIR/$FNAME | sed -e 's/^DATALINE //' |tr '&amp;' '\n' | sed -e 's/+/ /g' &gt; /tmp/$FNAME<br>
+ <br>
+   TEXT=`awk -F'=' '/limitedtextarea/ { print $2 }' /tmp/$FNAME| sed -e 's/+/ /g'`<br>
+   CNTx=`awk -F'=' '/filename/ { print $2 }'  /tmp/$FNAME`<br>
+   SUBJECT=`awk -F'=' '/subject/ { print $2 }'  /tmp/$FNAME`<br>
+<br>
+#echo "&lt;br&gt;"<br>
+#cat  /tmp/$FNAME<br>
+#echo "&lt;br&gt;"<br>
+#echo "sss $TEXT, $CNTx  , $SUBJECT"<br>
+<br>
+else<br>
+#echo "without data posted"<br>
+<br>
+CNT=`cat $BASEDIR/count`<br>
+CNT=$[$CNT+1]<br>
+echo $CNT &gt; $BASEDIR/count<br>
+#echo $CNT<br>
+<br>
+#FORMINPUT=`tr '&amp;' '\n' &gt; /tmp/$FNAME`<br>
+<br>
+fi<br>
+<br>
+FNAME="FILE$CNT.html"<br>
+<br>
+#echo "past parse $FNAME"<br>
+<br>
+sed -e 's/INITIALTEXT/'"$TEXT"'/'  $BASEDIR/edit1.tmpl |\<br>
+sed -e 's/SUBJECT/'"$SUBJECT"'/' |\<br>
+sed -e 's!VIEWPAGE!'"$WORKDIR/$FNAME"'!' |\<br>
+sed -e 's/FILENAME/'"$CNT"'/' |\<br>
+sed -e 's/%0D/\n/g' -e 's/%0A//g' <br>
+<br>
+<br>
+echo $FNAME<br>
+<br>
+if [ -s /tmp/$FNAME ] ; then<br>
+  rm /tmp/$FNAME<br>
+fi<br>
+<br>
+<br>
+fi<br>
+<br>

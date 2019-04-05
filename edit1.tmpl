@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>xxx </title>
+<script language="javascript" type="text/javascript">
+function limitText(limitField, limitCount, limitNum) {
+	if (limitField.value.length > limitNum) {
+		limitField.value = limitField.value.substring(0, limitNum);
+	} else {
+		limitCount.value = limitNum - limitField.value.length;
+	}
+}
+</script>
+</head>
+
+
+<body bgcolor="#999999">
+
+<a href="/edittest">Listings</a> &nbsp; &nbsp;&nbsp; <a href="VIEWPAGE">See entry</a>
+
+<h1>Editor</h1> 
+
+<form name="myform" action="/cgi-bin/edittest.cgi" method=post> 
+<input type=text name="subject" value="SUBJECT" size=40  ><br>
+<textarea rows="20" cols="60"  name="limitedtextarea" onKeyDown="limitText(this.form.limitedtextarea,this.form.countdown,100);" 
+onKeyUp="limitText(this.form.limitedtextarea,this.form.countdown,100);">
+INITIALTEXT
+</textarea><br>
+<font size="1">(Maximum characters: 100)<br>
+You have <input readonly type="text" name="countdown" size="3" value="100"> characters left.</font>
+<input type=submit><br> 
+<input type="hidden" name="filename" value="FILENAME"> 
+</form>
+
+
+</html> 

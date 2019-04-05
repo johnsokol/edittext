@@ -1,0 +1,11 @@
+#!/bin/bash
+
+BASEDIR="/htdocs/edittest"
+
+cp $BASEDIR/listing1.tmpl  $BASEDIR/index.html
+#cd $BASEDIR; grep -h LISTINGDATA FILE*.html | sed -e 's/LISTINGDATA//' -e 's/$/<br>/'  >> $BASEDIR/index.html
+cd $BASEDIR; head -10 FILE*.html | grep -h LISTINGDATA | sed -e 's/LISTINGDATA//' -e 's/$/<br>/'  >> $BASEDIR/index.html
+ 
+
+
+echo "Make Index ran"
